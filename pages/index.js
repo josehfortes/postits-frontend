@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import BackgroundImage from '../src/components/backgroundImage'
+import FormSpace from '../src/components/LoginPage/formSpace'
 
 const StyledHomePage = styled.div`
   height: 100%;
@@ -13,7 +14,9 @@ function HomePage () {
   return (
     <BackgroundImage>
       <StyledHomePage>
-        Hello World
+        <FormSpace>
+          
+        </FormSpace>
       </StyledHomePage>
     </BackgroundImage>
   )
