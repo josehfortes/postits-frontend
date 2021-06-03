@@ -14,9 +14,7 @@ function HomePage () {
   return (
     <BackgroundImage>
       <StyledHomePage>
-        <FormSpace>
-          
-        </FormSpace>
+        <FormSpace />
       </StyledHomePage>
     </BackgroundImage>
   )
