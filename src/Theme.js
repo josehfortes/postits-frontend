@@ -5,6 +5,7 @@ const theme = {
     primary: '#7D2ECC',
     light: '#F0F0F0',
     white: '#FFFFFF',
+    grey: '#F8F8F8',
     inputBackground: 'rgba(140, 140, 140, 0.5)',
   }
 }

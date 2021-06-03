@@ -3,6 +3,7 @@ import Container from '../src/components/layout/container'
 import InfoBar from '../src/components/InfoBar'
 
 import NewBoard from '../src/components/Dashboard/newBoard'
+import BoardList from '../src/components/Dashboard/dashboardList'
 
 function DashboardPage () {
   return (
@@ -11,6 +12,7 @@ function DashboardPage () {
       <Container>
         <H1>Quadros</H1>
         <NewBoard />
+        <BoardList />
       </Container>
     </>
   )
