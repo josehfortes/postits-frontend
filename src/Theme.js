@@ -8,6 +8,7 @@ const theme = {
     white: '#FFFFFF',
     grey: '#F8F8F8',
     inputBackground: 'rgba(140, 140, 140, 0.5)',
+    error: '#cc0000',
   }
 }
 

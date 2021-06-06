@@ -18,17 +18,42 @@ const StyledText = styled.a`
   text-align: center;
 `
 
-function Form ({ onSubmit, submitButtonText, linkText, onLinkClick }) {
+const Error = styled.p`
+  color: ${({theme}) => theme.colors.error};
+  text-align: center;
+`
+
+function Form ({ onSubmit, submitButtonText, linkText, onLinkClick, isRegister, error }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    onSubmit({ email, password })
+    onSubmit({ email, password, firstName, lastName })
   }
 
   return (
     <StyledForm onSubmit={handleSubmit}>
+      {
+        isRegister && <Input 
+          type='text'
+          placeholder='Nome'
+          required
+          value={firstName}
+          onChange={({ target }) => setFirstName(target.value)}
+        />
+      }
+      {
+        isRegister && <Input 
+          type='text'
+          placeholder='Sobrenome'
+          required
+          value={lastName}
+          onChange={({ target }) => setLastName(target.value)}
+        />
+      }
       <Input 
         type='email'
         placeholder='E-mail'
@@ -45,6 +70,7 @@ function Form ({ onSubmit, submitButtonText, linkText, onLinkClick }) {
         />
       <Button type='submit'>{submitButtonText}</Button>
       <StyledText href="#" onClick={onLinkClick }>{linkText}</StyledText>
+      {error && <Error>Erro ao {isRegister ? 'Cadastrar' : 'Entrar'}.</Error>}
     </StyledForm>
   )
 }
