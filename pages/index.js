@@ -1,23 +1,22 @@
-import styled from 'styled-components'
+import H1 from '../src/components/typography/h1'
+import Container from '../src/components/layout/container'
+import InfoBar from '../src/components/InfoBar'
 
-import BackgroundImage from '../src/components/backgroundImage'
-import FormSpace from '../src/components/LoginPage/formSpace'
+import NewBoard from '../src/components/Dashboard/newBoard'
+import BoardList from '../src/components/Dashboard/dashboardList'
+import withAuth from '../src/HOCs/withAuth'
 
-const StyledHomePage = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
-
-function HomePage () {
+function DashboardPage () {
   return (
-    <BackgroundImage>
-      <StyledHomePage>
-        <FormSpace />
-      </StyledHomePage>
-    </BackgroundImage>
+    <>
+      <InfoBar />
+      <Container>
+        <H1>Quadros</H1>
+        <NewBoard />
+        <BoardList />
+      </Container>
+    </>
   )
 }
 
-export default HomePage
+export default withAuth(DashboardPage)

@@ -5,6 +5,8 @@ import Subtitle from '../src/components/typography/subtitle'
 
 import BoardList from '../src/components/Board/boardList'
 
+import withAuth from '../src/HOCs/withAuth'
+
 function Board () {
   return (
     <>
@@ -18,4 +20,4 @@ function Board () {
   )
 }
 
-export default Board
+export default withAuth(Board)

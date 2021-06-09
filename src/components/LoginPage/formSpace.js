@@ -15,10 +15,10 @@ const StyledFormSpace = styled.div`
   flex-direction: column;
 `
 
-function FormSpace () {
+function FormSpace ({ isLoginPage }) {
   const router = useRouter()
   const [cookie, setCookie] = useCookies(['authorization'])
-  const [formState, setFormState] = useState(true)
+  const [formState, setFormState] = useState(isLoginPage)
   const [error, setError] = useState()
 
   const handleLogin = ({ email, password }) => {
