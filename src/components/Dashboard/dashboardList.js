@@ -10,20 +10,18 @@ const StyledBoardList = styled.div`
   margin-top: 80px;
 `
 
-function BoardList () {
+function BoardList ({ boards }) {
   return (
     <StyledBoardList>
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
-      <BoardName />
+      {
+        boards.map((board) => <BoardName />)
+      }
     </StyledBoardList>
   )
+}
+
+BoardList.defaultProps = {
+  boards: []
 }
 
 export default BoardList

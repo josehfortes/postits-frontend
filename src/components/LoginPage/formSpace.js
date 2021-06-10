@@ -21,9 +21,18 @@ function FormSpace ({ isLoginPage }) {
   const [formState, setFormState] = useState(isLoginPage)
   const [error, setError] = useState()
 
-  const handleLogin = ({ email, password }) => {
+  const handleLogin = async ({ email, password }) => {
     setError(false)
-    console.log({ email, password })
+    try {
+      const { data } = await axios.post(`${NEXT_PUBLIC_API_URL}/user`, {
+        email, password
+      })
+      handleAuth(data.authorization)
+    } catch (err) {
+      setError(true)
+      console.error(err)
+      console.error(err.message)
+    }
   }
 
   const handleRegister = async ({ email, password, firstName, lastName }) => {
@@ -42,7 +51,7 @@ function FormSpace ({ isLoginPage }) {
 
   const handleAuth = (token) => {
     setCookie('authorization', token)
-    router.push('/dashboard')
+    router.push('/')
   }
 
   return (
