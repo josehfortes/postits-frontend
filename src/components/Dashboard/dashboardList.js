@@ -14,7 +14,9 @@ function BoardList ({ boards }) {
   return (
     <StyledBoardList>
       {
-        boards.map((board) => <BoardName />)
+        boards.map(({ _id, name, updatedDate }) => 
+          <BoardName key={`board-${_id}`} id={_id} name={name} updated={updatedDate} />
+        )
       }
     </StyledBoardList>
   )
