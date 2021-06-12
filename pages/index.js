@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import cookie from 'cookie'
 
 import H1 from '../src/components/typography/h1'
 import Container from '../src/components/layout/container'
@@ -9,24 +10,19 @@ import BoardList from '../src/components/Dashboard/dashboardList'
 import withAuth from '../src/HOCs/withAuth'
 import APIClient from '../src/utils/APIClient'
 
-function DashboardPage ({ authorization }) {
-  const [boards, setBoards] = useState([])
+function DashboardPage ({ authorization, boards }) {
+  const [localBoards, setLocalBoards] = useState([])
 
   useEffect(async () => {
-    try {
-      const { data } = await APIClient(authorization).get(`/board/all`)
-      setBoards(data)
-    } catch (err) {
-      console.error(err)
-    }
-  }, [])
+    setLocalBoards(boards)
+  }, [boards])
 
   const handleCreateBoard = async (name) => {
     try {
       const { data } = await APIClient(authorization).post(`/board`, {
         name
       })
-      setBoards([...boards, { ...data }])
+      setLocalBoards([...boards, { ...data }])
     } catch (err) {
       console.error(err)
     }
@@ -38,10 +34,29 @@ function DashboardPage ({ authorization }) {
       <Container>
         <H1>Quadros</H1>
         <NewBoard onCreate={handleCreateBoard} />
-        <BoardList boards={boards} />
+        <BoardList boards={localBoards} />
       </Container>
     </>
   )
+}
+
+export async function getServerSideProps({ req }) {
+  try {
+    const { authorization } = cookie.parse(req.headers?.cookie || '')
+    const { data } = await APIClient(authorization).get(`/board/all`)
+
+    return {
+      props: {
+        boards: data
+      }
+    }
+  } catch (err) {
+    return {
+      redirect: {
+        destination: '/login',
+      }
+    }
+  }
 }
 
 export default withAuth(DashboardPage)
