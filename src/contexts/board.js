@@ -21,6 +21,7 @@ const saveData = _.debounce(async (data) => {
     await APIClient().put(`/board?id=${data._id}`, {
       ...data
     })
+
   } catch (err) {
     console.error(err)
   }

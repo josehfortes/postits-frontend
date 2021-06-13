@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import styled from 'styled-components'
 import _ from 'lodash'
+import { Droppable, Draggable } from 'react-beautiful-dnd'
 
 import PostIt from '../Cards/postit'
 import Input from '../Inputs/input'
@@ -71,9 +72,37 @@ function BoardColumn ({ title, id, cards }) {
     <StyledBoardColumn>
       <H4>{titleDictionary[title] || title}</H4>
       <BoardContent>
-        {
-          cards.map((text, i) => <PostIt key={`postit-${id}-${i}`} text={text} position={i} onDelete={() => handleDelete(i)} />)
-        }
+        <Droppable key={id} droppableId={id}>
+          {(provided) => (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {
+                cards.map((text, i) => (
+                  <Draggable
+                    key={`${id}-${i}`}
+                    draggableId={`${id}-${i}`}
+                    index={i}
+                  >
+                    {
+                      (provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <PostIt key={`postit-${id}-${i}`} text={text} position={i} onDelete={() => handleDelete(i)} />
+                        </div>
+                      )
+                    }
+                  </Draggable>
+                ))
+              }
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
       </BoardContent>
       <form onSubmit={handleForm}>
         <Input 
