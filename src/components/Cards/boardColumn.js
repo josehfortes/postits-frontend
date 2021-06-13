@@ -1,7 +1,11 @@
+import { useState, useContext } from 'react'
 import styled from 'styled-components'
+import _ from 'lodash'
 
 import PostIt from '../Cards/postit'
-import Button from '../Buttons/button'
+import Input from '../Inputs/input'
+
+import { store, CONSTANTS } from '../../contexts/board'
 
 const StyledBoardColumn = styled.div`
   display: flex;
@@ -24,20 +28,63 @@ const BoardContent = styled.div`
 `
 
 function BoardColumn ({ title, id, cards }) {
+  const [text, setText] = useState('')
+  const { state, dispatch } = useContext(store)
+
   const titleDictionary = {
     TODO: 'A Fazer',
     DOING: 'Em Desenvolvimento',
     DONE: 'Feito'
   }
 
+  const handleForm = (e) => {
+    e.preventDefault()
+    const localData = _.cloneDeep(state.data)
+
+    const { cards } = localData.find(({ _id }) => _id === id)
+    cards.push(text)
+
+    dispatch({
+      type: CONSTANTS.EDIT_BOARD,
+      payload: {
+        data: localData
+      }
+    })
+
+    setText('')
+  }
+
+  const handleDelete = (pos) => {
+    const localData = _.cloneDeep(state.data)
+    const { cards } = localData.find(({ _id }) => _id === id)
+    cards.splice(pos, 1)
+
+    dispatch({
+      type: CONSTANTS.EDIT_BOARD,
+      payload: {
+        data: localData
+      }
+    })
+  }
+
   return (
     <StyledBoardColumn>
       <H4>{titleDictionary[title] || title}</H4>
       <BoardContent>
-        <PostIt />
-        <PostIt />
+        {
+          cards.map((text, i) => <PostIt key={`postit-${id}-${i}`} text={text} position={i} onDelete={() => handleDelete(i)} />)
+        }
       </BoardContent>
-      <Button fullWidth variant="outlined">Adicionar Card</Button>
+      <form onSubmit={handleForm}>
+        <Input 
+          type="text"
+          placeholder="Texto do card"
+          required
+          fullWidth
+          value={text}
+          onChange={({ target }) => setText(target.value)}
+        />
+      </form> 
     </StyledBoardColumn>
   )
 }

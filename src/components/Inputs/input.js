@@ -7,8 +7,10 @@ const StyledInput = styled.input`
   padding: 15px; 20px;
   color: ${({ theme }) => theme.colors.white};
   border-radius: 50px;
-  min-width: 250px;
+  min-width: 150px;
   font-size: 14px;
+
+  ${({ fullWidth }) => fullWidth ? 'width: calc(100% - 40px);' : ''}
 
   ::placeholder,
   ::-webkit-input-placeholder {
