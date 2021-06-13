@@ -1,23 +1,44 @@
-import H1 from '../../src/components/typography/h1'
+import cookie from 'cookie'
+
 import Container from '../../src/components/layout/container'
 import InfoBar from '../../src/components/InfoBar'
-import Subtitle from '../../src/components/typography/subtitle'
-
-import BoardList from '../../src/components/Board/boardList'
-
+import BoardInfo from '../../src/components/Board/boardInfo'
 import withAuth from '../../src/HOCs/withAuth'
 
-function Board () {
+import APIClient from '../../src/utils/APIClient'
+import { StateProvider } from '../../src/contexts/board'
+
+function Board ({ board }) {
   return (
     <>
       <InfoBar />
       <Container>
-        <H1>Nome do quadro</H1>
-        <Subtitle>Atualizado em 01 de Janeiro de 3000</Subtitle>
-        <BoardList />
+        <StateProvider>
+          <BoardInfo board={board} />
+        </StateProvider>
       </Container>
     </>
   )
+}
+
+export async function getServerSideProps({ params, req }) {
+  try {
+    const { authorization } = cookie.parse(req.headers?.cookie || '')
+    const { data } = await APIClient(authorization).get(`/board?id=${params.id}`)
+
+    return {
+      props: {
+        board: data
+      }
+    }
+
+  } catch (err) {
+    return {
+      redirect: {
+        destination: '/login',
+      }
+    }
+  }
 }
 
 export default withAuth(Board)

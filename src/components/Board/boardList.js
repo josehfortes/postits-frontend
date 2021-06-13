@@ -1,6 +1,9 @@
+import { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 
 import BoardColumn from '../Cards/boardColumn'
+
+import { store } from '../../contexts/board'
 
 const StyledBoardList = styled.div`
   display: flex;
@@ -10,11 +13,15 @@ const StyledBoardList = styled.div`
 `
 
 function BoardList () {
+  const { state } = useContext(store)
+
   return (
     <StyledBoardList>
-      <BoardColumn title="A fazer" />
-      <BoardColumn title="Em desenvolvimento" />
-      <BoardColumn title="Feito" />
+      {
+        state.data.map(({ name, _id, cards }) => 
+          <BoardColumn key={`board-column-${_id}`} title={name} id={_id} cards={cards} />
+        )
+      }
     </StyledBoardList>
   )
 }
