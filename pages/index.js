@@ -22,7 +22,7 @@ function DashboardPage ({ authorization, boards }) {
       const { data } = await APIClient(authorization).post(`/board`, {
         name
       })
-      setLocalBoards([...boards, { ...data }])
+      setLocalBoards([...localBoards, { ...data }])
     } catch (err) {
       console.error(err)
     }
